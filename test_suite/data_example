@@ -1,0 +1,29 @@
+data_F_001    echo "" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_002    echo "" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_003    echo "#abc#" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_004    echo "#abc#zz" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_005    echo "#abc##zz" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_006    echo "z#abc##zz" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_007    echo "z##abc##zz" | awk_ex -F '[#]' '{ print NF }'    awk
+data_F_008    echo "a\!b" | awk_ex -F'\x21' '{print $1}'    awk
+data_F_009    echo "a--a--b--a--b--c--a--b--c--d--" | awk_ex -F-- '{ print NF, length($NF), $NF }'    awk
+#-------------------------------
+data_if_001    echo "" | awk_ex 'BEGIN{if(23==23) print "foo"}'    awk
+data_if_002    echo "" | awk_ex 'BEGIN{if(23==23) print "bar"}'    awk
+data_if_003    echo "" | awk_ex 'BEGIN{if(23>=23) print "foo"}'    awk
+data_if_004    echo "" | awk_ex 'BEGIN{if(2 < 13) print "foo"}'    awk
+data_if_005    echo "" | awk_ex 'BEGIN{if("a"=="ab") print "bar"}'    awk
+#-------------------------------
+data_num_001    echo "" | awk_ex '{ print or(4294967295,1) }'    awk
+data_num_002    echo "" | awk_ex '{ print or(0xffffffff,1) }'    awk
+data_num_003    echo "" | awk_ex '{ print or(0x80000000,1) }'    awk
+data_num_004    echo "" | awk_ex '{ print or(01234,1) }'    awk
+data_num_005    echo "" | awk_ex '{ printf "%f %f", "000.123", "009.123" }'    awk
+#-------------------------------
+data_re_001    echo "Hi" | awk_ex 'gsub("@(samp|code|file){","");'; echo $?    awk
+#-------------------------------
+data_NF_001    echo "" | awk_ex 'BEGIN { print $Q NF $Q $0 $Q $1 $Q $2 $Q }'    awk
+#-------------------------------
+data_ERR_001    echo "" | awk_ex 'BEGIN { getline line <"doesnt_exist"; print ERRNO; ERRNO=0; close("doesnt_exist"); print ERRNO; print "Ok" }'    awk
+#-------------------------------
+data_FS_001    echo "a:b c:d\ne:f g:h" | awk_ex '{FS=":"; print $1}'    awk

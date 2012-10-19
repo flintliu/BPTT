@@ -1,4 +1,7 @@
 #! /usr/bin/python
+"""main function
+"""
+
 import os,re,ConfigParser
 
 def case_list_collector(caseDir):
