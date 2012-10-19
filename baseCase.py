@@ -19,15 +19,15 @@ import re
 import util
 import logging
 
-
 class BaseTestCaseClass():
     """Test case basic class.
     
     """
-    def __init__(self, conf_path, utp_name):
+    def __init__(self,conf_path,utp_name):
         self.conf_path = conf_path
         self.utp_name = utp_name
-    
+        self.debug_info = []
+
     def set_utp_name(self,utp_name_set):
         self.utp_name = utp_name_set
         return None
@@ -70,7 +70,7 @@ class BaseTestCaseClass():
         """To run a single case."""
         pass_num = 0
         fail_num = 0
-        log = []
+        data_name = []
         if data_info[0] == "file":
             data_file = open(data_info[1])
             data_cases = data_file.readlines()
@@ -81,43 +81,33 @@ class BaseTestCaseClass():
                         pass_num += 1
                     elif data_result == 0:
                         fail_num += 1
-                        log.append(dc_name)
+                        data_name.append(dc_name)
                 else:
                     pass
         elif data_info[0] == "dir":
             pass
-        log = ";".join(log)
-        return pass_num,fail_num,log
+        data_name = ";".join(data_name)
+        return pass_num,fail_num,data_name
 
-    def log_printer(self,pass_num,fail_num,log_str):
+    def log_printer(self,pass_num,fail_num,data_name):
         """logger"""
+        self.debug_info = ";".join(self.debug_info)
         log = {}
         log.update({"pass":pass_num})
         log.update({"fail":fail_num})
-        log.update({"log":log_str})
+        log.update({"data_name":data_name})
+        log.update({"debug_info":self.debug_info})
         return log
 
     def run_me(self):
         """main function"""
         data_info = self.get_data_info()
         UT_path = self.get_UTP_path()
-        pass_num,fail_num,log = self.data_manager(data_info,UT_path)
-        print self.log_printer(pass_num,fail_num,log)
-        return stream
+        pass_num,fail_num,data_name = self.data_manager(data_info,UT_path)
+        print self.log_printer(pass_num,fail_num,data_name)
+        return None
 
 if __name__ == "__main__":
     test = BaseTestCaseClass()
     test.set_utp_name("awk_ex")
     print test.get_UTP_path()
-    
-
-
-
-
-
-
-
-
-
-
-
