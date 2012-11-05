@@ -42,7 +42,7 @@ def case_runner(case_list):
         for case in case_list:
             print str(case) + " is runing..."
             single_result = os.popen('python ./test_suite/' + str(case)).readlines()
-            single_result = single_result[1].strip()
+            single_result = single_result[0].strip()
             execute_results.update({str(case):single_result})
         return execute_results
     except Exception,e:
